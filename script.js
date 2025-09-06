@@ -2261,3 +2261,84 @@ document.addEventListener('DOMContentLoaded', function () {
     return 'Gallery';
   }
 });
+
+/* ===== Back Button Manager: close overlays/modals instead of leaving ===== */
+(function () {
+  // Push a history entry when an overlay opens
+  function pushLayer(tag) {
+    try { history.pushState({ layer: tag, t: Date.now() }, '', location.href); } catch (e) {}
+  }
+
+  // Close the top-most open layer (gallery, video, service modal)
+  function closeTopLayer() {
+    // 1) Design gallery
+    const gallery = document.querySelector('.design-gallery-modal');
+    if (gallery) {
+      document.body.classList.remove('modal-open');
+      gallery.remove();
+      return true;
+    }
+
+    // 2) Studio Tour / video overlay (our unique class)
+    const studio = document.querySelector('.studio-modal');
+    if (studio) {
+      const vid = studio.querySelector('video');
+      if (vid) { try { vid.pause(); } catch (e) {} }
+      document.body.classList.remove('modal-open');
+      studio.remove();
+      return true;
+    }
+
+    // 3) Legacy .video-modal (if any older code created it)
+    const legacyVideo = document.querySelector('.video-modal');
+    if (legacyVideo) {
+      const v = legacyVideo.querySelector('video');
+      if (v) { try { v.pause(); } catch (e) {} }
+      document.body.classList.remove('modal-open');
+      legacyVideo.remove();
+      return true;
+    }
+
+    // 4) Any service modal that is currently visible
+    const openServiceModal = Array.from(document.querySelectorAll('.modal'))
+      .find(m => m.style.display && m.style.display !== 'none');
+
+    if (openServiceModal) {
+      // stop music if it's the music modal (uses your helper if present)
+      if (openServiceModal.id === 'music-modal' && typeof stopMusic === 'function') {
+        try { stopMusic(true); } catch (e) {}
+      }
+      closeModal(openServiceModal.id);
+      return true;
+    }
+
+    return false; // nothing to close
+  }
+
+  // Wrap openModal to push a history entry whenever a service modal opens
+  const prevOpenModal = window.openModal;
+  window.openModal = function (modalId) {
+    if (prevOpenModal) prevOpenModal(modalId);
+    pushLayer('modal:' + modalId);
+  };
+
+  // Observe overlays added to the DOM and push a state for them too
+  const overlayObserver = new MutationObserver((mutations) => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(n => {
+        if (!(n instanceof Element)) return;
+        if (n.classList.contains('studio-modal'))    pushLayer('studio');
+        if (n.classList.contains('design-gallery-modal')) pushLayer('gallery');
+        if (n.classList.contains('video-modal'))     pushLayer('video-legacy');
+      });
+    });
+  });
+  overlayObserver.observe(document.body, { childList: true });
+
+  // When the user presses the phone back button, close the top-most layer
+  window.addEventListener('popstate', () => {
+    // If any overlay is open, close it and stop here
+    if (closeTopLayer()) return;
+    // If nothing is open, the browser will continue going back normally
+  });
+})();
