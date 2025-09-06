@@ -6029,3 +6029,119 @@ body.modal-open { overflow: hidden; }
 .design-lightbox img {
   max-width: 92vw; max-height: 92vh; display: block; border-radius: 12px;
 }
+
+/* =========================
+   MOBILE POLISH (<= 900px)
+   ========================= */
+@media (max-width: 900px) {
+  /* 1) Founder section: stack cleanly, no overlap */
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  /* Center the founder card block and give space under the circle */
+  .team-member.founder {
+    display: grid;
+    justify-items: center;
+    text-align: center !important;
+  }
+
+  .team-member.founder .member-image {
+    width: 180px !important;
+    height: 180px !important;
+    margin: 0 auto 14px auto !important;
+  }
+
+  /* Text under the circle */
+  .team-member.founder .member-info {
+    max-width: 100% !important;
+    margin: 8px 0 0 !important;
+    width: 100%;
+  }
+  .team-member.founder .member-info h4 { font-size: 1.2rem !important; }
+  .team-member.founder .member-role { font-size: .95rem !important; }
+
+  /* IMPORTANT: remove desktop lift on the right paragraph */
+  .founder-right { 
+    margin-top: 8px !important;  /* or 0 */
+  }
+  .founder-right p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  /* 2) Hero spacing on small screens */
+  .hero {
+    min-height: calc(100svh - var(--nav-height, 64px));
+    padding-top: calc(var(--nav-height, 64px) + 14px);
+    padding-bottom: 40px;
+  }
+  .hero .hero-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .hero .btn { width: 100%; }
+
+  /* 3) Services → single column */
+  .services .services-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  .services .service-card { padding: 18px; }
+
+  /* 4) Portfolio → single column, consistent thumbnail height */
+  .portfolio .portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  .portfolio-item img,
+  .video-card img,
+  .music-card img { height: 220px; object-fit: cover; }
+
+  /* 5) Modals fit mobile screens */
+  .modal .modal-content {
+    width: 95vw;
+    max-height: 90vh;
+    overflow: auto;
+    border-radius: 14px;
+  }
+  .modal .modal-tabs { flex-wrap: wrap; gap: 8px; }
+  .tab-btn { flex: 1 1 auto; }
+
+  .projects-grid { grid-template-columns: 1fr; gap: 14px; }
+  .project-showcase { flex-direction: column; align-items: stretch; }
+  .project-showcase img { width: 100%; height: auto; }
+
+  /* Music modal compact */
+  .music-player { padding: 16px; }
+  .player-main { grid-template-columns: 1fr; gap: 14px; }
+  .album-cover { width: 120px; height: 120px; margin: 0 auto; }
+  .progress-section { flex-direction: column; align-items: stretch; gap: 6px; }
+  .volume-section { justify-content: center; gap: 8px; }
+  
+  /* 6) Contact boxes spacing */
+  .contact-form-section,
+  .contact-info-section { padding: 16px 14px 18px; }
+
+  /* 7) Reduce heavy shadows on tiny screens */
+  .service-card,
+  .portfolio-item,
+  .contact-form-section,
+  .contact-info-section,
+  .mission-statement { box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+}
+
+/* Tiny phones (<= 380px) — keep layout safe */
+@media (max-width: 380px) {
+  .team-member.founder .member-image { width: 160px !important; height: 160px !important; }
+  .hero .hero-title { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+  .hero .hero-description { font-size: .95rem; }
+}
