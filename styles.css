@@ -6164,3 +6164,80 @@ body.modal-open { overflow: hidden; }
     max-width: 720px;                      /* comfortable width on phones */
   }
 }
+
+/* ===== Mobile icon/header fix for service modals ===== */
+@media (max-width: 900px) {
+
+  /* Keep the modal header stable and readable */
+  .modal .modal-header {
+    position: sticky;          /* header stays visible while scrolling modal */
+    top: 0;
+    z-index: 15;               /* above body content */
+    padding: 14px 54px 12px 64px; /* left space for icon, right for close btn */
+    background: inherit;       /* use same backdrop as modal */
+    backdrop-filter: inherit;
+    -webkit-backdrop-filter: inherit;
+  }
+
+  /* Freeze the left service icon */
+  .modal .modal-header .service-icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    z-index: 16;               /* above header text */
+  }
+
+  /* Freeze the close “X” (ensure easy tap size) */
+  .modal .modal-header .close-btn {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    z-index: 16;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Stop rotating/conic gradients in modal backgrounds on mobile */
+  #video-modal .modal-content::before,
+  #design-modal .modal-content::before,
+  #post-modal .modal-content::before,
+  #voice-modal .modal-content::before {
+    animation: none !important;
+  }
+
+  /* Hide decorative particles in header only (they look like “dragging” dots) */
+  .modal .modal-header .floating-particle { display: none !important; }
+
+  /* Avoid 3D hover transforms that can cause jank on scroll */
+  .project-card,
+  .project-showcase {
+    transform: none !important;
+    transition: box-shadow .2s ease, border-color .2s ease !important;
+  }
+}
+
+/* Icons/images/buttons should not be text-selectable/draggy anywhere */
+img, svg, i, .fa, button, .tab-btn, .close-btn, .service-icon {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Particles should never intercept taps */
+.floating-particle { pointer-events: none !important; }
