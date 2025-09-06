@@ -6146,3 +6146,21 @@ body.modal-open { overflow: hidden; }
   .hero .hero-description { font-size: .95rem; }
 }
 
+/* Mobile modal scrolling (scroll the wrapper) */
+@media (max-width: 900px) {
+  .modal {
+    /* do NOT set display here */
+    overflow-y: auto !important;           /* modal wrapper scrolls */
+    -webkit-overflow-scrolling: touch;     /* smooth iOS scrolling */
+    padding: 10px;                         /* space around content */
+    touch-action: pan-y;                   /* ensure vertical scroll */
+  }
+  .modal .modal-content {
+    max-height: none !important;           /* let content size naturally */
+    overflow: visible !important;
+    margin: 10px auto 20px;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 720px;                      /* comfortable width on phones */
+  }
+}
