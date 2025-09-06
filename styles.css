@@ -6241,3 +6241,52 @@ img, svg, i, .fa, button, .tab-btn, .close-btn, .service-icon {
 
 /* Particles should never intercept taps */
 .floating-particle { pointer-events: none !important; }
+
+/* Draggable time bar (progress) */
+.progress {
+  position: relative;
+  height: 8px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: none;            /* allow precise drag */
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8a2be2, #4b0082);
+  border-radius: 999px;
+  width: 0%;
+  transition: width 0.08s linear;
+}
+
+/* Visible draggable handle */
+.progress-handle {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.45);
+  opacity: 0.95;
+  transition: transform .08s ease;
+  pointer-events: auto;          /* must be draggable */
+}
+.progress:hover .progress-handle { transform: translate(-50%, -50%) scale(1.05); }
+
+/* Easier to tap on mobile */
+@media (max-width: 900px) {
+  .progress { height: 10px; }
+  .progress-handle { width: 18px; height: 18px; }
+}
+
+/* Prevent accidental selection/drag ghost */
+.progress, .progress *, .volume-slider, .volume-slider * {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

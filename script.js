@@ -179,22 +179,7 @@ window.addEventListener("click", (event) => {
   }
 });
 
-  // Music player functionality
-  const playBtn = document.querySelector(".play-btn")
-  const playlistItems = document.querySelectorAll(".playlist-item")
-
-  if (playBtn) {
-    playBtn.addEventListener("click", function () {
-      const icon = this.querySelector("i")
-      if (icon.classList.contains("fa-play")) {
-        icon.classList.remove("fa-play")
-        icon.classList.add("fa-pause")
-      } else {
-        icon.classList.remove("fa-pause")
-        icon.classList.add("fa-play")
-      }
-    })
-  }
+  
 
   // Playlist item selection
   playlistItems.forEach((item) => {
@@ -1050,6 +1035,8 @@ class SmoothParticleSystem {
                 this.startAnimation();
             } else {
                 cancelAnimationFrame(this.animationId);
+
+                
             }
         });
         
@@ -1256,271 +1243,312 @@ document.head.appendChild(rippleStyle);
 
 // Functional Music Player
 class MusicPlayer {
-    constructor() {
-        this.audio = null;
-        this.currentTrack = 0;
-        this.isPlaying = false;
-        this.isShuffled = false;
-        this.tracks = [
-    {
+  constructor() {
+    this.audio = null;
+    this.currentTrack = 0;
+    this.isPlaying = false;
+    this.isShuffled = false;
+
+    this.tracks = [
+      {
         title: "Alee seyaa",
         artist: "Dileep Dilhara",
         genre: "Your Genre",
-        duration: "2:57", // Update with actual duration
-        cover: "assets/images/Alee Seyaa.jpg", // Your cover image
+        duration: "2:57",
+        cover: "assets/images/Alee Seyaa.jpg",
         src: "assets/audio/Alee Seyaa.mp3"
-    },
-    {
+      },
+      {
         title: "Ambula Me gedi",
         artist: "Pubudu Bawantha & Ashini jayathilaka",
         genre: "YOYO Music Lab",
         duration: "4:12",
         cover: "assets/images/Ambula Me Gedi.jpg",
         src: "assets/audio/Ambula Me Gedi.mp3"
-    },
-    {
+      },
+      {
         title: "Sithin Athata",
         artist: "Pubudu Bawantha",
         genre: "YOYO Music Lab",
         duration: "4:38",
         cover: "assets/images/Sithin Athata.jpg",
         src: "assets/audio/Sithin Athata.mp3"
-    }
-    // Add as many songs as you want
-];
-       
-        
-        this.init();
-    }
-    
-    init() {
-        this.audio = document.getElementById('audio-player');
-        if (!this.audio) return;
-        
-        this.setupEventListeners();
+      }
+    ];
+
+    this.init();
+  }
+
+  init() {
+    this.audio = document.getElementById('audio-player');
+    if (!this.audio) return;
+
+    this.setupEventListeners();
+    this.renderPlaylist();
+    this.updateTrackInfo();
+  }
+
+  setupEventListeners() {
+    const playBtn = document.getElementById('play-btn');
+    playBtn.addEventListener('click', () => this.togglePlay());
+
+    document.getElementById('prev-btn').addEventListener('click', () => this.previousTrack());
+    document.getElementById('next-btn').addEventListener('click', () => this.nextTrack());
+
+    // Draggable seek bar
+    this.initSeekBar();
+
+    // Volume
+    const volumeSlider = document.getElementById('volume-slider');
+    volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
+
+    // Shuffle
+    document.getElementById('shuffle-btn').addEventListener('click', () => this.toggleShuffle());
+
+    // Uploads
+    document.getElementById('add-song-btn').addEventListener('click', () => {
+      document.getElementById('song-input').click();
+    });
+    document.getElementById('song-input').addEventListener('change', (e) => this.addSongs(e.files));
+
+    // Cover click toggles play
+    document.querySelector('.album-cover').addEventListener('click', () => this.togglePlay());
+
+    // Audio events
+    this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+    this.audio.addEventListener('timeupdate', () => this.updateProgress());
+    this.audio.addEventListener('ended', () => this.nextTrack());
+    this.audio.addEventListener('error', (e) => this.handleError(e));
+
+    this.audio.volume = 0.7;
+  }
+
+  // NEW: draggable seek bar
+  initSeekBar() {
+    this.progressBar    = document.getElementById('progress-bar');
+    this.progressFill   = document.getElementById('progress-fill');
+    this.progressHandle = document.getElementById('progress-handle');
+    this.currentTimeEl  = document.getElementById('current-time');
+
+    if (!this.progressBar || !this.progressFill || !this.progressHandle) return;
+
+    this.isSeeking = false;
+
+    const onPointerDown = (e) => {
+      e.preventDefault();
+      this.isSeeking = true;
+      if (this.progressBar.setPointerCapture) {
+        try { this.progressBar.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      this.seekToPointer(e, true);
+      document.addEventListener('pointermove', onPointerMove, { passive: false });
+      document.addEventListener('pointerup', onPointerUp, { once: true });
+    };
+
+    const onPointerMove = (e) => {
+      if (!this.isSeeking) return;
+      e.preventDefault();
+      this.seekToPointer(e, true);
+    };
+
+    const onPointerUp = (e) => {
+      this.isSeeking = false;
+      document.removeEventListener('pointermove', onPointerMove);
+      this.seekToPointer(e, false);
+    };
+
+    // Start from bar or handle
+    this.progressBar.addEventListener('pointerdown', onPointerDown);
+    this.progressHandle.addEventListener('pointerdown', onPointerDown);
+  }
+
+  // NEW: compute seek position from pointer
+  seekToPointer(e, live = true) {
+    if (!this.audio || !isFinite(this.audio.duration) || this.audio.duration <= 0) return;
+
+    const rect = this.progressBar.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX) ?? 0;
+    let x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+    const pct = rect.width ? Math.max(0, Math.min(1, x / rect.width)) : 0;
+
+    // Update UI
+    this.progressFill.style.width = (pct * 100) + '%';
+    this.progressHandle.style.left = (pct * 100) + '%';
+
+    const newTime = pct * this.audio.duration;
+
+    if (this.currentTimeEl) this.currentTimeEl.textContent = this.formatTime(newTime);
+
+    // Seek while dragging and when released
+    try { this.audio.currentTime = newTime; } catch (_) {}
+  }
+
+  renderPlaylist() {
+    const container = document.getElementById('playlist-container');
+    container.innerHTML = '';
+
+    this.tracks.forEach((track, index) => {
+      const item = document.createElement('div');
+      item.className = 'playlist-item';
+      if (index === this.currentTrack) item.classList.add('active');
+
+      item.innerHTML = `
+        <span class="track-name">${track.title}</span>
+        <span class="track-duration">${track.duration}</span>
+      `;
+
+      item.addEventListener('click', () => this.playTrack(index));
+      container.appendChild(item);
+    });
+  }
+
+  updateTrackInfo() {
+    const track = this.tracks[this.currentTrack];
+    if (!track) return;
+
+    document.getElementById('track-title').textContent   = track.title;
+    document.getElementById('track-artist').textContent  = track.artist;
+    document.getElementById('track-genre').textContent   = track.genre;
+    document.getElementById('album-image').src           = track.cover;
+
+    this.audio.src = track.src;
+  }
+
+  togglePlay() { this.isPlaying ? this.pause() : this.play(); }
+
+  play() {
+    this.audio.play().then(() => {
+      this.isPlaying = true;
+      this.updatePlayButton();
+      this.updateWaveform();
+    }).catch(e => this.handleError(e));
+  }
+
+  pause() {
+    this.audio.pause();
+    this.isPlaying = false;
+    this.updatePlayButton();
+    this.updateWaveform();
+  }
+
+  playTrack(index) {
+    this.currentTrack = index;
+    this.updateTrackInfo();
+    this.renderPlaylist();
+    this.play();
+  }
+
+  nextTrack() {
+    this.currentTrack = this.isShuffled
+      ? Math.floor(Math.random() * this.tracks.length)
+      : (this.currentTrack + 1) % this.tracks.length;
+
+    this.updateTrackInfo();
+    this.renderPlaylist();
+    if (this.isPlaying) this.play();
+  }
+
+  previousTrack() {
+    this.currentTrack = this.currentTrack === 0 ? this.tracks.length - 1 : this.currentTrack - 1;
+    this.updateTrackInfo();
+    this.renderPlaylist();
+    if (this.isPlaying) this.play();
+  }
+
+  setVolume(value) {
+    this.audio.volume = value / 100;
+    this.updateVolumeIcon(value);
+  }
+
+  toggleShuffle() {
+    this.isShuffled = !this.isShuffled;
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    shuffleBtn.classList.toggle('active', this.isShuffled);
+  }
+
+  addSongs(files) {
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith('audio/')) return;
+
+      const url = URL.createObjectURL(file);
+      const audio = new Audio(url);
+
+      audio.addEventListener('loadedmetadata', () => {
+        const track = {
+          title: file.name.replace(/\.[^/.]+$/, ""),
+          artist: "Custom Upload",
+          genre: "User Upload",
+          duration: this.formatTime(audio.duration),
+          cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop",
+          src: url
+        };
+        this.tracks.push(track);
         this.renderPlaylist();
-        this.updateTrackInfo();
+      });
+    });
+  }
+
+  updatePlayButton() {
+    const playBtn = document.getElementById('play-btn');
+    const icon = playBtn.querySelector('i');
+    if (this.isPlaying) {
+      icon.className = 'fas fa-pause';
+      playBtn.classList.add('playing');
+    } else {
+      icon.className = 'fas fa-play';
+      playBtn.classList.remove('playing');
     }
-    
-    setupEventListeners() {
-        // Play/Pause button
-        const playBtn = document.getElementById('play-btn');
-        playBtn.addEventListener('click', () => this.togglePlay());
-        
-        // Previous/Next buttons
-        document.getElementById('prev-btn').addEventListener('click', () => this.previousTrack());
-        document.getElementById('next-btn').addEventListener('click', () => this.nextTrack());
-        
-        // Progress bar
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.addEventListener('click', (e) => this.seek(e));
-        
-        // Volume control
-        const volumeSlider = document.getElementById('volume-slider');
-        volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
-        
-        // Shuffle button
-        document.getElementById('shuffle-btn').addEventListener('click', () => this.toggleShuffle());
-        
-        // Add song button
-        document.getElementById('add-song-btn').addEventListener('click', () => {
-            document.getElementById('song-input').click();
-        });
-        
-        // File input
-        document.getElementById('song-input').addEventListener('change', (e) => this.addSongs(e.files));
-        
-        // Album cover click
-        document.querySelector('.album-cover').addEventListener('click', () => this.togglePlay());
-        
-        // Audio events
-        this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
-        this.audio.addEventListener('ended', () => this.nextTrack());
-        this.audio.addEventListener('error', (e) => this.handleError(e));
-        
-        // Set initial volume
-        this.audio.volume = 0.7;
+  }
+
+  updateWaveform() {
+    const waveform = document.querySelector('.waveform');
+    if (this.isPlaying) {
+      waveform.classList.add('playing');
+      waveform.classList.remove('paused');
+    } else {
+      waveform.classList.add('paused');
+      waveform.classList.remove('playing');
     }
-    
-    renderPlaylist() {
-        const container = document.getElementById('playlist-container');
-        container.innerHTML = '';
-        
-        this.tracks.forEach((track, index) => {
-            const item = document.createElement('div');
-            item.className = 'playlist-item';
-            if (index === this.currentTrack) item.classList.add('active');
-            
-            item.innerHTML = `
-                <span class="track-name">${track.title}</span>
-                <span class="track-duration">${track.duration}</span>
-            `;
-            
-            item.addEventListener('click', () => this.playTrack(index));
-            container.appendChild(item);
-        });
-    }
-    
-    updateTrackInfo() {
-        const track = this.tracks[this.currentTrack];
-        if (!track) return;
-        
-        document.getElementById('track-title').textContent = track.title;
-        document.getElementById('track-artist').textContent = track.artist;
-        document.getElementById('track-genre').textContent = track.genre;
-        document.getElementById('album-image').src = track.cover;
-        
-        this.audio.src = track.src;
-    }
-    
-    togglePlay() {
-        if (this.isPlaying) {
-            this.pause();
-        } else {
-            this.play();
-        }
-    }
-    
-    play() {
-        this.audio.play().then(() => {
-            this.isPlaying = true;
-            this.updatePlayButton();
-            this.updateWaveform();
-        }).catch(e => this.handleError(e));
-    }
-    
-    pause() {
-        this.audio.pause();
-        this.isPlaying = false;
-        this.updatePlayButton();
-        this.updateWaveform();
-    }
-    
-    playTrack(index) {
-        this.currentTrack = index;
-        this.updateTrackInfo();
-        this.renderPlaylist();
-        this.play();
-    }
-    
-    nextTrack() {
-        if (this.isShuffled) {
-            this.currentTrack = Math.floor(Math.random() * this.tracks.length);
-        } else {
-            this.currentTrack = (this.currentTrack + 1) % this.tracks.length;
-        }
-        this.updateTrackInfo();
-        this.renderPlaylist();
-        if (this.isPlaying) this.play();
-    }
-    
-    previousTrack() {
-        this.currentTrack = this.currentTrack === 0 ? this.tracks.length - 1 : this.currentTrack - 1;
-        this.updateTrackInfo();
-        this.renderPlaylist();
-        if (this.isPlaying) this.play();
-    }
-    
-    seek(e) {
-        const progressBar = e.currentTarget;
-        const rect = progressBar.getBoundingClientRect();
-        const percentage = (e.clientX - rect.left) / rect.width;
-        this.audio.currentTime = percentage * this.audio.duration;
-    }
-    
-    setVolume(value) {
-        this.audio.volume = value / 100;
-        this.updateVolumeIcon(value);
-    }
-    
-    toggleShuffle() {
-        this.isShuffled = !this.isShuffled;
-        const shuffleBtn = document.getElementById('shuffle-btn');
-        shuffleBtn.classList.toggle('active', this.isShuffled);
-    }
-    
-    addSongs(files) {
-        Array.from(files).forEach(file => {
-            if (file.type.startsWith('audio/')) {
-                const url = URL.createObjectURL(file);
-                const audio = new Audio(url);
-                
-                audio.addEventListener('loadedmetadata', () => {
-                    const track = {
-                        title: file.name.replace(/\.[^/.]+$/, ""),
-                        artist: "Custom Upload",
-                        genre: "User Upload",
-                        duration: this.formatTime(audio.duration),
-                        cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop",
-                        src: url
-                    };
-                    
-                    this.tracks.push(track);
-                    this.renderPlaylist();
-                });
-            }
-        });
-    }
-    
-    updatePlayButton() {
-        const playBtn = document.getElementById('play-btn');
-        const icon = playBtn.querySelector('i');
-        
-        if (this.isPlaying) {
-            icon.className = 'fas fa-pause';
-            playBtn.classList.add('playing');
-        } else {
-            icon.className = 'fas fa-play';
-            playBtn.classList.remove('playing');
-        }
-    }
-    
-    updateWaveform() {
-        const waveform = document.querySelector('.waveform');
-        if (this.isPlaying) {
-            waveform.classList.add('playing');
-            waveform.classList.remove('paused');
-        } else {
-            waveform.classList.add('paused');
-            waveform.classList.remove('playing');
-        }
-    }
-    
-    updateProgress() {
-        if (!this.audio.duration) return;
-        
-        const percentage = (this.audio.currentTime / this.audio.duration) * 100;
-        document.getElementById('progress-fill').style.width = percentage + '%';
-        document.getElementById('current-time').textContent = this.formatTime(this.audio.currentTime);
-    }
-    
-    updateDuration() {
-        document.getElementById('total-time').textContent = this.formatTime(this.audio.duration);
-    }
-    
-    updateVolumeIcon(value) {
-        const icon = document.querySelector('.volume-icon');
-        if (value == 0) {
-            icon.className = 'fas fa-volume-mute volume-icon';
-        } else if (value < 50) {
-            icon.className = 'fas fa-volume-down volume-icon';
-        } else {
-            icon.className = 'fas fa-volume-up volume-icon';
-        }
-    }
-    
-    formatTime(seconds) {
-        if (!seconds || isNaN(seconds)) return '0:00';
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-    
-    handleError(e) {
-        console.error('Audio error:', e);
-        // You can add user-friendly error handling here
-    }
+  }
+
+  // UPDATED: don’t fight while user drags
+  updateProgress() {
+    if (!this.audio || !isFinite(this.audio.duration) || this.audio.duration <= 0) return;
+    if (this.isSeeking) return;
+
+    const pct = this.audio.currentTime / this.audio.duration;
+    const pc = Math.max(0, Math.min(1, pct)) * 100;
+
+    const fill = document.getElementById('progress-fill');
+    const handle = document.getElementById('progress-handle');
+    if (fill)   fill.style.width = pc + '%';
+    if (handle) handle.style.left = pc + '%';
+
+    const ct = document.getElementById('current-time');
+    if (ct) ct.textContent = this.formatTime(this.audio.currentTime);
+  }
+
+  updateDuration() {
+    document.getElementById('total-time').textContent = this.formatTime(this.audio.duration);
+  }
+
+  updateVolumeIcon(value) {
+    const icon = document.querySelector('.volume-icon');
+    if (value == 0) icon.className = 'fas fa-volume-mute volume-icon';
+    else if (value < 50) icon.className = 'fas fa-volume-down volume-icon';
+    else icon.className = 'fas fa-volume-up volume-icon';
+  }
+
+  formatTime(seconds) {
+    if (!seconds || isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  handleError(e) {
+    console.error('Audio error:', e);
+  }
 }
 
 // Initialize music player when modal opens
