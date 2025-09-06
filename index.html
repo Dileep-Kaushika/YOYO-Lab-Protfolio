@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOYO Lab - Visual & Sound Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">YOYO</span>
+                <span class="logo-lab">Lab</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <!-- Theme toggle -->
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+  <i class="fas fa-moon"></i>
+</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">YOYO</span><br>
+                <span class="hero-subtitle">Visual & Sound Lab</span>
+            </h1>
+            <p class="hero-description">
+                Crafting immersive audio experiences and stunning visual content that brings your creative vision to life
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('portfolio')">Explore Portfolio</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('contact')">Get In Touch</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+<section id="about" class="about">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2 class="section-title">About <span class="text-purple">YOYO Lab</span></h2>
+                <p class="section-description">
+                    Where creativity meets technology to deliver exceptional audio-visual experiences
+                </p>
+                
+                <div class="about-story">
+                    <p>
+                        Founded on the belief that every project deserves a unique sonic and visual identity, 
+                        YOYO Lab has emerged as a premier destination for creative professionals seeking 
+                        cutting-edge audio and visual solutions. Our team combines years of industry experience 
+                        with innovative techniques to bring your creative vision to life.
+                    </p>
+                    
+                    <p>
+                        From intimate acoustic recordings to large-scale multimedia productions, we pride 
+                        ourselves on delivering results that exceed expectations. Our state-of-the-art 
+                        facility and passionate team ensure that every project receives the attention 
+                        and expertise it deserves.
+                    </p>
+                </div>
+
+                <div class="about-values">
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="value-content">
+                            <h4>Innovation</h4>
+                            <p>Pushing creative boundaries with cutting-edge technology and fresh perspectives</p>
+                        </div>
+                    </div>
+                    
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="value-content">
+                            <h4>Collaboration</h4>
+                            <p>Working closely with clients to ensure their vision is authentically realized</p>
+                        </div>
+                    </div>
+                    
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="value-content">
+                            <h4>Excellence</h4>
+                            <p>Delivering professional-grade results that stand out in today's competitive landscape</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-visual">
+                <div class="about-image">
+  <img src="assets/images/studio.jpg" alt="YOYO Lab Studio">
+  <div class="image-overlay" id="studio-tour" data-video="assets/videos/studio-tour.mp4">
+    <div class="play-button">
+      <i class="fas fa-play"></i>
+    </div>
+    <span class="play-text">Studio Tour</span>
+  </div>
+</div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support Available</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="team-section">
+  <h3 class="team-title">Met Our <span class="text-purple">Founder</span></h3>
+
+  <div class="founder-grid">
+    <!-- Left: photo + name + role -->
+    <div class="team-member founder">
+      <div class="member-image">
+        <img src="assets/images/MY.jpg" alt="Dileep Dilhara">
+        <div class="member-social">
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="member-info">
+        <h4>Dileep Dilhara</h4>
+        <p class="member-role">Owner & Founder</p>
+      </div>
+    </div>
+
+    <!-- Right: paragraph area -->
+    <div class="founder-right">
+      <p>
+        Hello, I’m Dileep Kaushika, the owner and founder of YOYO Visual & Sound Lab. My journey began with a deep passion for music, design, and editing, which inspired me to create a space where creativity and technology meet. With experience in graphic design, video editing, music production, and sound engineering, I help artists, businesses, and creators bring their visions to life.
+
+This studio reflects my belief that every project—whether a song, film, or visual design—has the power to connect with people on a deeper level. Through dedication, artistry, and innovation, I aim to make YOYO Visual & Sound Lab a place where ideas turn into impactful creations.
+      </p>
+    </div>
+  </div>
+</div>
+
+        <div class="mission-statement">
+            <div class="mission-content">
+                <h3>Our Mission</h3>
+                <blockquote>
+                    "To transform creative ideas into powerful audio-visual experiences that resonate, 
+                    inspire, and leave lasting impressions. We believe every story deserves to be told 
+                    with authenticity, technical excellence, and artistic flair."
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our <span class="text-purple">Services</span></h2>
+            <p class="section-description">
+                Professional audio and visual services designed to elevate your creative projects to new heights
+            </p>
+            
+            <div class="services-grid">
+                <!-- Music Production -->
+                <div class="service-card" onclick="openModal('music-modal')">
+                    <div class="service-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Music Production</h3>
+                    <p>From concept to mastered track, we create original music across all genres with professional quality.</p>
+                    <ul class="service-features">
+                        <li>Original Composition</li>
+                        <li>Beat Making</li>
+                        <li>Mixing & Mastering</li>
+                        <li>Genre Versatility</li>
+                    </ul>
+                </div>
+
+                <!-- Video Editing -->
+                <div class="service-card" onclick="openModal('video-modal')">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Editing</h3>
+                    <p>Professional video editing services that bring your visual stories to life with cinematic quality.</p>
+                    <ul class="service-features">
+                        <li>Color Grading</li>
+                        <li>Motion Graphics</li>
+                        <li>Visual Effects</li>
+                        <li>Post Production</li>
+                    </ul>
+                </div>
+
+                <!-- Graphic Design -->
+                <div class="service-card" onclick="openModal('design-modal')">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Graphic Design</h3>
+                    <p>Creative visual solutions including branding, digital graphics, and print design materials.</p>
+                    <ul class="service-features">
+                        <li>Logo Design</li>
+                        <li>Brand Identity</li>
+                        <li>Print Materials</li>
+                        <li>Digital Graphics</li>
+                    </ul>
+                </div>
+
+                <!-- Post Production -->
+                <div class="service-card" onclick="openModal('post-modal')">
+                    <div class="service-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3>Post Production</h3>
+                    <p>Complete post-production services including audio sync, dialogue editing, and final delivery.</p>
+                    <ul class="service-features">
+                        <li>Audio Sync</li>
+                        <li>Dialogue Editing</li>
+                        <li>ADR Recording</li>
+                        <li>Final Mix</li>
+                    </ul>
+                </div>
+
+                <!-- Voice Recording -->
+                <div class="service-card" onclick="openModal('voice-modal')">
+                    <div class="service-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Voice Recording</h3>
+                    <p>Professional voice recording services for commercials, audiobooks, and multimedia projects.</p>
+                    <ul class="service-features">
+                        <li>Voice Acting</li>
+                        <li>Narration</li>
+                        <li>Commercial VO</li>
+                        <li>Podcast Production</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h3>Ready to bring your project to life?</h3>
+                <button class="btn btn-primary" onclick="scrollToSection('contact')">Get Started Today</button>
+            </div>
+        </div>
+    </section>
+
+   <!-- Portfolio Section -->
+<section id="portfolio" class="portfolio">
+  <div class="container">
+    <h2 class="section-title">Our <span class="text-purple">Portfolio</span></h2>
+    <p class="section-description">
+      Explore music tracks, video productions, and graphic design works from YOYO Lab
+    </p>
+
+    <div class="portfolio-filters">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="music">Music</button>
+      <button class="filter-btn" data-filter="video">Video</button>
+      <button class="filter-btn" data-filter="design">Graphic Design</button>
+    </div>
+
+    <div class="portfolio-grid">
+
+      <!-- MUSIC: inline playable tracks -->
+      <div class="portfolio-item" data-category="music">
+        <div class="music-card">
+          <img src="assets/images/Alee Seyaa.jpg" alt="Alee Seyaa cover">
+          <button class="track-play" aria-label="Play Alee Seyaa"><i class="fa-solid fa-play"></i></button>
+          <div class="track-meta">
+            <h4>Alee Seyaa</h4>
+            <p>Dileep Dilhara — 2:57</p>
+          </div>
+          <audio class="track-audio" preload="metadata" src="assets/audio/Alee Seyaa.mp3"></audio>
+        </div>
+      </div>
+
+      <div class="portfolio-item" data-category="music">
+        <div class="music-card">
+          <img src="assets/images/Ambula Me Gedi.jpg" alt="Ambula Me Gedi cover">
+          <button class="track-play" aria-label="Play Ambula Me Gedi"><i class="fa-solid fa-play"></i></button>
+          <div class="track-meta">
+            <h4>Ambula Me Gedi</h4>
+            <p>Pubudu Bawantha & Ashini Jayathilaka — 4:12</p>
+          </div>
+          <audio class="track-audio" preload="metadata" src="assets/audio/Ambula Me Gedi.mp3"></audio>
+        </div>
+      </div>
+
+      <div class="portfolio-item" data-category="music">
+        <div class="music-card">
+          <img src="assets/images/Sithin Athata.jpg" alt="Sithin Athata cover">
+          <button class="track-play" aria-label="Play Sithin Athata"><i class="fa-solid fa-play"></i></button>
+          <div class="track-meta">
+            <h4>Sithin Athata</h4>
+            <p>Pubudu Bawantha — 4:38</p>
+          </div>
+          <audio class="track-audio" preload="metadata" src="assets/audio/Sithin Athata.mp3"></audio>
+        </div>
+      </div>
+
+      <!-- VIDEO: thumbnails (open in new tab or replace hrefs with your own) -->
+      <div class="portfolio-item" data-category="video">
+        <a class="video-card" href="https://www.youtube.com/" target="_blank" rel="noopener">
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&h=400&fit=crop" alt="Brand Commercial">
+          <div class="portfolio-overlay">
+            <h4>Brand Commercial</h4>
+            <p>Video Production</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="portfolio-item" data-category="video">
+        <a class="video-card" href="https://www.youtube.com/" target="_blank" rel="noopener">
+          <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=700&h=400&fit=crop" alt="Documentary Edit">
+          <div class="portfolio-overlay">
+            <h4>Documentary Edit</h4>
+            <p>Storytelling</p>
+          </div>
+        </a>
+      </div>
+
+     <!-- DESIGN: logos -->
+<div class="portfolio-item" data-category="design" data-collection="logos">
+  <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&h=400&fit=crop" alt="Logo concept">
+  <div class="portfolio-overlay">
+    <h4>Logo Concepts</h4>
+    <p>Brand Identity</p>
+  </div>
+</div>
+
+<!-- DESIGN: posts -->
+<div class="portfolio-item" data-category="design" data-collection="posts">
+  <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=700&h=400&fit=crop" alt="Post design">
+  <div class="portfolio-overlay">
+    <h4>Social Post Series</h4>
+    <p>Post Design</p>
+  </div>
+</div>
+
+<!-- DESIGN: t-shirts -->
+<div class="portfolio-item" data-category="design" data-collection="tshirts">
+  <!-- Temporary image for now (replace with yours when ready) -->
+  <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=700&h=400&fit=crop" alt="T‑Shirt design">
+  <div class="portfolio-overlay">
+    <h4>T‑Shirt Designs</h4>
+    <p>Apparel Design</p>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Reviews & Ratings Section -->
+<section id="reviews" class="reviews">
+  <div class="container">
+    <h2 class="section-title">Reviews & <span class="text-purple">Ratings</span></h2>
+    <p class="section-description">Share your experience with YOYO Lab — your feedback helps others.</p>
+
+    <div class="reviews-grid">
+      <!-- Summary -->
+      <div class="glass-card reviews-summary" aria-live="polite">
+        <div class="summary-head">
+          <div class="summary-score">
+            <div id="avg-score" class="avg-score">0.0</div>
+            <div class="avg-stars" id="avg-stars" aria-label="Average rating"></div>
+            <div class="total-reviews"><span id="total-reviews">0</span> reviews</div>
+          </div>
+          <div class="summary-distribution" id="summary-distribution">
+            <!-- distribution bars filled by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Write a review -->
+      <div class="glass-card review-form" id="review-form-card">
+        <h3 class="form-title">Write a review</h3>
+        <form id="review-form" novalidate>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="reviewer-name">Name</label>
+              <input type="text" id="reviewer-name" placeholder="Your name" maxlength="40" required>
+            </div>
+            <div class="form-field">
+              <label for="reviewer-email">Email (optional)</label>
+              <input type="email" id="reviewer-email" placeholder="you@example.com" maxlength="80">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>Rating</label>
+            <div class="star-input" id="star-input" role="radiogroup" aria-label="Select rating">
+              <button type="button" class="star" data-value="1" aria-label="1 star" aria-checked="false"><i class="fa-regular fa-star"></i></button>
+              <button type="button" class="star" data-value="2" aria-label="2 stars" aria-checked="false"><i class="fa-regular fa-star"></i></button>
+              <button type="button" class="star" data-value="3" aria-label="3 stars" aria-checked="false"><i class="fa-regular fa-star"></i></button>
+              <button type="button" class="star" data-value="4" aria-label="4 stars" aria-checked="false"><i class="fa-regular fa-star"></i></button>
+              <button type="button" class="star" data-value="5" aria-label="5 stars" aria-checked="false"><i class="fa-regular fa-star"></i></button>
+            </div>
+            <input type="hidden" id="rating" value="0">
+          </div>
+
+          <div class="form-field">
+            <label for="review-text">Your Review</label>
+            <textarea id="review-text" rows="4" placeholder="Tell us about your experience..." maxlength="800" required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Submit Review</button>
+            <small class="form-hint">Your review is saved in your browser. No login needed.</small>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="glass-bar reviews-toolbar">
+      <div class="toolbar-left">
+        <label>
+          Sort by
+          <select id="reviews-sort">
+            <option value="newest">Newest</option>
+            <option value="highest">Highest rated</option>
+            <option value="lowest">Lowest rated</option>
+          </select>
+        </label>
+        <label>
+          Filter
+          <select id="reviews-filter">
+            <option value="all">All ratings</option>
+            <option value="5">Only 5★</option>
+            <option value="4">4★ & up</option>
+            <option value="3">3★ & up</option>
+            <option value="2">2★ & up</option>
+            <option value="1">1★ & up</option>
+          </select>
+        </label>
+      </div>
+      <div class="toolbar-right">
+        <input id="reviews-search" type="search" placeholder="Search reviews...">
+      </div>
+    </div>
+
+    <!-- Reviews list -->
+    <div id="reviews-list" class="reviews-list">
+      <!-- items rendered by JS -->
+    </div>
+
+    <div class="reviews-actions">
+      <button id="load-more-reviews" class="btn btn-secondary" style="display:none;">Load more</button>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="contact-content">
+            <div class="contact-form-section">
+                <h3>Send us a message</h3>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <select required>
+                        <option value="">Select a Service</option>
+                        <option value="music">Music Production</option>
+                        <option value="video">Video Editing</option>
+                        <option value="design">Graphic Design</option>
+                        <option value="post">Post Production</option>
+                        <option value="voice">Voice Recording</option>
+                    </select>
+                    <textarea placeholder="Tell us about your project..." rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+            
+            <div class="contact-info-section">
+                <h3>Contact Information</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>hello@yoyolab.studio</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Los Angeles, CA</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/yoyolab" target="_blank" rel="noopener noreferrer" title="Follow us on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/yoyolab" target="_blank" rel="noopener noreferrer" title="Like us on Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@yoyolab" target="_blank" rel="noopener noreferrer" title="Follow us on TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://www.twitter.com/yoyolab" target="_blank" rel="noopener noreferrer" title="Follow us on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.youtube.com/yoyolab" target="_blank" rel="noopener noreferrer" title="Subscribe to our YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/yoyolab" target="_blank" rel="noopener noreferrer" title="Connect on LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Modals -->
+<!-- Music Production Modal -->
+<div id="music-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="service-icon">
+                <i class="fas fa-music"></i>
+            </div>
+            <div>
+                <h2>Music Production</h2>
+                <p>Professional audio services designed to elevate your creative projects</p>
+            </div>
+            <button class="close-btn" onclick="closeModal('music-modal')">&times;</button>
+        </div>
+        
+        <!-- Functional Music Player -->
+        <div class="music-player">
+            <div class="player-main">
+                <div class="album-art">
+                    <div class="album-cover">
+                        <img id="album-image" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop" alt="Album Cover">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="waveform">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="track-info">
+                    <h3 id="track-title">Select a track to play</h3>
+                    <p id="track-artist">YOYO Lab</p>
+                    <span id="track-genre" class="genre">Music Production</span>
+                </div>
+                
+                <div class="player-controls">
+                    <div class="progress-section">
+                        <span id="current-time" class="time">0:00</span>
+                        <div class="progress-container">
+                            <div id="progress-bar" class="progress">
+                                <div id="progress-fill" class="progress-fill"></div>
+                                <div id="progress-handle" class="progress-handle"></div>
+                            </div>
+                        </div>
+                        <span id="total-time" class="time">0:00</span>
+                    </div>
+                    
+                    <div class="controls">
+                        <button id="prev-btn" class="control-btn" title="Previous Track">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button id="play-btn" class="play-btn" title="Play/Pause">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="next-btn" class="control-btn" title="Next Track">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="volume-section">
+                        <i class="fas fa-volume-up volume-icon"></i>
+                        <div class="volume-container">
+                            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="70">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hidden Audio Element -->
+            <audio id="audio-player" preload="metadata">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        <!-- Playlist Section -->
+        <div class="playlist">
+            <div class="playlist-header">
+                <h4>YOYO LAB TRACKS</h4>
+                <button id="shuffle-btn" class="shuffle-btn" title="Shuffle">
+                    <i class="fas fa-random"></i>
+                </button>
+            </div>
+            <div id="playlist-container" class="playlist-items">
+                <!-- Playlist items will be dynamically added here -->
+            </div>
+            
+            <!-- Admin Section (Hidden by default) -->
+            <div id="admin-section" class="admin-section" style="display: none;">
+                <div class="admin-header">
+                    <h5>🔐 Admin Controls</h5>
+                    <button id="admin-close" class="admin-close">×</button>
+                </div>
+                <input type="file" id="song-input" accept="audio/*" multiple style="display: none;">
+                <button id="add-song-btn" class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> Add Songs
+                </button>
+                <button id="clear-playlist" class="btn btn-secondary">
+                    <i class="fas fa-trash"></i> Clear Custom Songs
+                </button>
+                <p class="add-song-info">Supported formats: MP3, WAV, M4A, OGG</p>
+            </div>
+            
+            <!-- Secret Admin Access -->
+            <div class="admin-access">
+                <p class="credits">© 2024 YOYO Lab - All rights reserved</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video Editing Modal -->
+<div id="video-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="service-icon"><i class="fas fa-video"></i></div>
+      <div>
+        <h2>Video Editing</h2>
+        <p>Professional video editing services that bring your visual stories to life with cinematic quality</p>
+      </div>
+      <button class="close-btn" onclick="closeModal('video-modal')">&times;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('video','projects', this)">Projects</button>
+      <button class="tab-btn" onclick="switchTab('video','before-after', this)">Before/After</button>
+      <button class="tab-btn" onclick="switchTab('video','techniques', this)">Techniques</button>
+    </div>
+
+    <div class="tab-content active" id="video-projects">
+      <div class="projects-grid">
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=300&h=200&fit=crop" alt="Corporate Brand Film">
+          <div class="project-info">
+            <h4>Corporate Brand Film</h4>
+            <p>Complete brand story with motion graphics and color grading</p>
+            <div class="project-tags">
+              <span class="tag">Motion Graphics</span>
+              <span class="tag">Color Grading</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=200&fit=crop" alt="Music Video">
+          <div class="project-info">
+            <h4>Music Video Production</h4>
+            <p>Dynamic cuts synchronized with beat and rhythm</p>
+            <div class="project-tags">
+              <span class="tag">Rhythm Sync</span>
+              <span class="tag">Visual Effects</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=300&h=200&fit=crop" alt="Documentary">
+          <div class="project-info">
+            <h4>Documentary Edit</h4>
+            <p>Storytelling through seamless narrative flow</p>
+            <div class="project-tags">
+              <span class="tag">Storytelling</span>
+              <span class="tag">Audio Sync</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="video-before-after">
+      <div class="service-panel">
+        <div class="panel-card">
+          <h4 class="panel-title">Raw Footage to Final Cut</h4>
+          <div class="ba-grid">
+            <div class="ba-col">
+              <span class="ba-label">Before</span>
+              <div class="ba-frame">
+                <img src="https://images.unsplash.com/photo-1520975922284-5f1a1e2e6f3c?w=800&h=550&fit=crop" alt="Before edit">
+              </div>
+            </div>
+            <div class="ba-col">
+              <span class="ba-label ba-label-after">After</span>
+              <div class="ba-frame">
+                <img src="https://images.unsplash.com/photo-1524253482453-3fed8d2fe12b?w=900&h=550&fit=crop" alt="After edit">
+              </div>
+            </div>
+          </div>
+          <div class="pill-group">
+            <span class="pill">Color Correction</span>
+            <span class="pill">Audio Enhancement</span>
+            <span class="pill">Seamless Transitions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="video-techniques">
+      <div class="service-panel">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h5>Color Grading</h5>
+            <p>Professional color correction and grading for cinematic look</p>
+          </div>
+          <div class="feature-card">
+            <h5>Motion Graphics</h5>
+            <p>Custom animations and text overlays</p>
+          </div>
+          <div class="feature-card">
+            <h5>Audio Sync</h5>
+            <p>Perfect synchronization of audio and visual elements</p>
+          </div>
+          <div class="feature-card">
+            <h5>Transitions</h5>
+            <p>Smooth cuts and creative scene transitions</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Graphic Design Modal -->
+<div id="design-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="service-icon"><i class="fas fa-palette"></i></div>
+      <div>
+        <h2>Graphic Design</h2>
+        <p>Creative visual solutions including branding, digital graphics, and print design materials</p>
+      </div>
+      <button class="close-btn" onclick="closeModal('design-modal')">&times;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('design','portfolio', this)">Portfolio</button>
+      <button class="tab-btn" onclick="switchTab('design','process', this)">Process</button>
+      <button class="tab-btn" onclick="switchTab('design','tools', this)">Tools</button>
+    </div>
+
+    <div class="tab-content active" id="design-portfolio">
+      <div class="projects-grid">
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=200&fit=crop" alt="Brand Identity">
+          <div class="project-info">
+            <h4>Brand Identity System</h4>
+            <p>Complete visual identity including logo, colors, and typography</p>
+            <div class="project-tags">
+              <span class="tag">Logo Design</span>
+              <span class="tag">Brand Guidelines</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=300&h=200&fit=crop" alt="Digital Marketing">
+          <div class="project-info">
+            <h4>Digital Marketing Graphics</h4>
+            <p>Social media templates and digital advertising materials</p>
+            <div class="project-tags">
+              <span class="tag">Social Media</span>
+              <span class="tag">Digital Ads</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=300&h=200&fit=crop" alt="Print Design">
+          <div class="project-info">
+            <h4>Print Design Collection</h4>
+            <p>Brochures, flyers, and promotional materials</p>
+            <div class="project-tags">
+              <span class="tag">Print Design</span>
+              <span class="tag">Layout</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="design-process">
+      <div class="service-panel">
+        <ol class="step-list">
+          <li class="step-item"><span class="step-index">1</span><div class="step-content"><h5>Creative Brief</h5><p>Understanding your brand vision, target audience, and design goals</p></div></li>
+          <li class="step-item"><span class="step-index">2</span><div class="step-content"><h5>Concept Development</h5><p>Creating initial design concepts and exploring visual directions</p></div></li>
+          <li class="step-item"><span class="step-index">3</span><div class="step-content"><h5>Design Refinement</h5><p>Iterating on the chosen concept with client feedback and revisions</p></div></li>
+          <li class="step-item"><span class="step-index">4</span><div class="step-content"><h5>Final Delivery</h5><p>Providing final files in all required formats and usage guidelines</p></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="tab-content" id="design-tools">
+      <div class="service-panel">
+        <div class="feature-grid">
+          <div class="feature-card"><h5>Adobe Creative Suite</h5><p>Design with Photoshop, Illustrator, and InDesign</p></div>
+          <div class="feature-card"><h5>Brand Strategy</h5><p>Strategic visual communication aligned with brand objectives</p></div>
+          <div class="feature-card"><h5>Typography Design</h5><p>Custom typography and font pairing for unique brand voice</p></div>
+          <div class="feature-card"><h5>Color Theory</h5><p>Color palettes that evoke emotion and drive action</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Post Production Modal -->
+<div id="post-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="service-icon"><i class="fas fa-film"></i></div>
+      <div>
+        <h2>Post Production</h2>
+        <p>Complete post-production services including audio sync, dialogue editing, and final delivery</p>
+      </div>
+      <button class="close-btn" onclick="closeModal('post-modal')">&times;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('post','overview', this)">Overview</button>
+      <button class="tab-btn" onclick="switchTab('post','examples', this)">Examples</button>
+      <button class="tab-btn" onclick="switchTab('post','process', this)">Process</button>
+    </div>
+
+    <div class="tab-content active" id="post-overview">
+      <div class="project-showcase">
+        <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=250&fit=crop" alt="Post Production Project">
+        <div class="showcase-info">
+          <h4>Post Production Project</h4>
+          <p>Professional work showcase</p>
+          <div class="project-tags">
+            <span class="tag">Professional</span>
+            <span class="tag">Creative</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="post-examples">
+      <div class="service-panel">
+        <div class="feature-grid two-col">
+          <div class="feature-card"><h5>Professional Approach</h5><p>Industry‑standard methods and practices</p></div>
+          <div class="feature-card"><h5>Creative Solutions</h5><p>Innovative approaches to creative challenges</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="post-process">
+      <div class="service-panel">
+        <ol class="step-list">
+          <li class="step-item"><span class="step-index">1</span><div class="step-content"><h5>Consultation</h5><p>Understanding your creative vision and requirements</p></div></li>
+          <li class="step-item"><span class="step-index">2</span><div class="step-content"><h5>Planning</h5><p>Detailed project planning and timeline development</p></div></li>
+          <li class="step-item"><span class="step-index">3</span><div class="step-content"><h5>Production</h5><p>Professional execution with regular updates</p></div></li>
+          <li class="step-item"><span class="step-index">4</span><div class="step-content"><h5>Delivery</h5><p>Final delivery and support</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Voice Recording Modal -->
+<div id="voice-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="service-icon"><i class="fas fa-microphone"></i></div>
+      <div>
+        <h2>Voice Recording</h2>
+        <p>Professional voice recording services for commercials, audiobooks, and multimedia projects</p>
+      </div>
+      <button class="close-btn" onclick="closeModal('voice-modal')">&times;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('voice','overview', this)">Overview</button>
+      <button class="tab-btn" onclick="switchTab('voice','examples', this)">Examples</button>
+      <button class="tab-btn" onclick="switchTab('voice','process', this)">Process</button>
+    </div>
+
+    <div class="tab-content active" id="voice-overview">
+      <div class="project-showcase">
+        <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=250&fit=crop" alt="Voice Recording Project">
+        <div class="showcase-info">
+          <h4>Voice Recording Project</h4>
+          <p>Professional work showcase</p>
+          <div class="project-tags">
+            <span class="tag">Professional</span>
+            <span class="tag">Creative</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="voice-examples">
+      <div class="service-panel">
+        <div class="feature-grid two-col">
+          <div class="feature-card"><h5>Professional Approach</h5><p>Industry‑standard methods and practices</p></div>
+          <div class="feature-card"><h5>Creative Solutions</h5><p>Innovative approaches to creative challenges</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="voice-process">
+      <div class="service-panel">
+        <ol class="step-list">
+          <li class="step-item"><span class="step-index">1</span><div class="step-content"><h5>Consultation</h5><p>Understanding your creative vision and requirements</p></div></li>
+          <li class="step-item"><span class="step-index">2</span><div class="step-content"><h5>Planning</h5><p>Detailed project planning and timeline development</p></div></li>
+          <li class="step-item"><span class="step-index">3</span><div class="step-content"><h5>Production</h5><p>Professional execution with regular updates</p></div></li>
+          <li class="step-item"><span class="step-index">4</span><div class="step-content"><h5>Delivery</h5><p>Final delivery and support</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+           
+
+    <script src="script.js"></script>
+</body>
+</html>
