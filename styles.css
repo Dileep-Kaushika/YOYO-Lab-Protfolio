@@ -6290,3 +6290,49 @@ img, svg, i, .fa, button, .tab-btn, .close-btn, .service-icon {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+/* Make native form popups (select menus, scrollbars, etc.) use dark palette */
+body[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Base select styling */
+.reviews-toolbar select,
+.contact-form select {
+  appearance: none;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 36px 8px 12px;
+  background-color: rgba(255,255,255,0.06);
+  color: #e7e7f7;
+  outline: none;
+}
+
+/* Focus ring */
+.reviews-toolbar select:focus,
+.contact-form select:focus {
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+  border-color: rgba(139, 92, 246, 0.7);
+}
+
+/* Dark popup list colors (Chrome/Edge/Firefox support) */
+body[data-theme="dark"] select option,
+body[data-theme="dark"] select optgroup {
+  background-color: #120f1a;   /* dropdown menu background */
+  color: #ece9ff;              /* option text */
+}
+
+/* Highlight states inside dropdown */
+body[data-theme="dark"] select option:hover,
+body[data-theme="dark"] select option:checked {
+  background-color: #5b21b6;   /* your purple */
+  color: #ffffff;
+}
+
+/* Specific IDs (if you want to be extra explicit) */
+body[data-theme="dark"] #reviews-sort,
+body[data-theme="dark"] #reviews-filter,
+body[data-theme="dark"] #contact-service {
+  background-color: rgba(255,255,255,0.06);
+  color: #ece9ff;
+}
