@@ -204,15 +204,6 @@ window.addEventListener("click", (event) => {
     })
   })
 
-  // Contact form submission
-  const contactForm = document.querySelector(".contact-form")
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault()
-      alert("Thank you for your message! We will get back to you soon.")
-      this.reset()
-    })
-  }
 
   // Navbar scroll effect
   window.addEventListener("scroll", () => {
@@ -2261,4 +2252,70 @@ document.addEventListener('DOMContentLoaded', function () {
     return 'Gallery';
   }
 });
+
+// Contact Form → Firebase Realtime Database (minimal)
+(function () {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  const nameEl = document.getElementById('contact-name');
+  const emailEl = document.getElementById('contact-email');
+  const serviceEl = document.getElementById('contact-service');
+  const messageEl = document.getElementById('contact-message');
+  const statusEl = document.getElementById('contact-status');
+  const submitBtn = document.getElementById('contact-submit');
+
+  function showStatus(msg, type = 'info') {
+    if (!statusEl) return;
+    if (!msg) { statusEl.style.display = 'none'; statusEl.textContent = ''; return; }
+    statusEl.style.display = 'block';
+    statusEl.textContent = msg;
+    statusEl.style.color = type === 'success' ? '#16a34a'
+                     : type === 'error'   ? '#dc2626'
+                     : '#6b7280';
+  }
+
+  function start() {
+    const db = window.db || (window.firebase && firebase.database && firebase.database());
+    if (!db) { console.warn('Firebase DB not ready'); return; }
+
+    const ref = db.ref('messages');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = (nameEl.value || '').trim();
+      const email = (emailEl.value || '').trim();
+      const service = (serviceEl.value || '').trim();
+      const message = (messageEl.value || '').trim();
+
+      if (!name || !email || !service || !message) {
+        showStatus('Please fill out all fields.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      showStatus('Sending...', 'info');
+
+      try {
+        await ref.push({
+          name, email, service, message,
+          createdAt: firebase.database.ServerValue.TIMESTAMP
+        });
+        showStatus('Thanks — your message was sent.', 'success');
+        form.reset();
+      } catch (err) {
+        console.error('Message submit error', err);
+        showStatus('Could not send message. Check Firebase rules and try again.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    });
+  }
+
+  if (window.db || (window.firebase && firebase.database)) start();
+  else window.addEventListener('firebaseReady', start, { once: true });
+})();
 
