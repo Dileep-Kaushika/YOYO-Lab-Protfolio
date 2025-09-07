@@ -977,12 +977,12 @@ This studio reflects my belief that every project—whether a song, film, or vis
 </div>
            
 
-    <!-- Firebase (compat builds – easiest for your current setup) -->
+       <!-- Firebase (compat builds – Realtime Database) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
     <script>
-      // Your Firebase config (keep the same values you already have)
+      // Your Firebase config (keep your values)
       const firebaseConfig = {
         apiKey: "AIzaSyDY1ef7q6QbwlT20nsVaF4cTWxxX1LfZhs",
         authDomain: "yoyo-database.firebaseapp.com",
@@ -993,15 +993,15 @@ This studio reflects my belief that every project—whether a song, film, or vis
         appId: "1:599520924652:web:ae472f1078822c997426c9"
       };
 
-      // Init Firebase + Firestore
+      // Init Firebase Realtime Database
       firebase.initializeApp(firebaseConfig);
-      window.db = firebase.firestore();
+      window.db = firebase.database();
 
-      // Optional: notify any script waiting for firebase
+      // Optional: notify scripts that Firebase is ready
       window.dispatchEvent(new Event('firebaseReady'));
     </script>
 
-    <!-- THEN load your app script -->
+    <!-- Then load your app JS -->
     <script src="script.js"></script>
   </body>
 </html>
