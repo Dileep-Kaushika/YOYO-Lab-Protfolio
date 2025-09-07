@@ -2319,5 +2319,15 @@ document.addEventListener('DOMContentLoaded', function () {
   else window.addEventListener('firebaseReady', start, { once: true });
 })();
 
+// Make WhatsApp link open the app on mobile
+(() => {
+  const a = document.getElementById('contact-whatsapp');
+  if (!a) return;
+  const msg = 'Hi YOYO Lab, I\'d like to chat about a project.';
+  const mobileHref = 'whatsapp://send?phone=94763485566&text=' + encodeURIComponent(msg);
+  const webHref = 'https://wa.me/94763485566?text=' + encodeURIComponent(msg);
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+  a.href = isMobile ? mobileHref : webHref;
+})();
 

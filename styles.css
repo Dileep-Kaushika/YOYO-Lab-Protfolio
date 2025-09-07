@@ -6376,3 +6376,25 @@ body[data-theme="dark"] select option:checked {
 .contact-link:hover {
   background: rgba(255,255,255,0.06);
 }
+
+/* Make each contact row fully clickable */
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;                /* keeps it above backgrounds */
+}
+.contact-link:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* Ensure clicks go to the <a>, not eaten by children */
+.contact-link > * { pointer-events: none; }
+
+/* If you previously had a rule that set pointer-events: none on .contact-item, remove it */
