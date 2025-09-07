@@ -6336,93 +6336,29 @@ body[data-theme="dark"] #contact-service {
   background-color: rgba(255,255,255,0.06);
   color: #ece9ff;
 }
+ /* Tell the browser to render native controls with dark palette */
+html { color-scheme: light dark; }      /* allow both */
+body[data-theme="dark"] { color-scheme: dark; }
+body[data-theme="light"] { color-scheme: light; }
 
-/* Theme colors used by the custom select */
-:root {
-  --sel-bg: #ffffff;
-  --sel-surface: #ffffff;
-  --sel-border: rgba(0,0,0,.15);
-  --sel-text: #111111;
-  --sel-hover: #f1f1f7;
-  --sel-accent: #8b5cf6;
-}
-body[data-theme="dark"] {
-  --sel-bg: #120f1a;
-  --sel-surface: rgba(255,255,255,.06);
-  --sel-border: rgba(255,255,255,.12);
-  --sel-text: #ece9ff;
-  --sel-hover: #1f1430;
-  --sel-accent: #8b5cf6;
+/* Make the controls themselves dark too */
+body[data-theme="dark"] select,
+body[data-theme="dark"] #reviews-sort,
+body[data-theme="dark"] #reviews-filter,
+body[data-theme="dark"] #contact-service {
+  background: rgba(255,255,255,.06);
+  color: #ece9ff;
+  border: 1px solid rgba(255,255,255,.12);
 }
 
-/* Hide the native select but keep it in the form */
-.select--hidden {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: 0; border: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
+/* Where supported: style list items (not all browsers support this) */
+body[data-theme="dark"] select option,
+body[data-theme="dark"] select optgroup {
+  background-color: #120f1a;
+  color: #ece9ff;
 }
-
-/* Wrapper */
-.ui-select { position: relative; display: inline-block; min-width: 160px; }
-
-/* Button */
-.ui-select-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--sel-border);
-  background: var(--sel-surface);
-  color: var(--sel-text);
-  cursor: pointer;
-  line-height: 1.2;
+body[data-theme="dark"] select option:hover,
+body[data-theme="dark"] select option:checked {
+  background-color: #5b21b6;
+  color: #fff;
 }
-.ui-select-btn:focus-visible {
-  outline: 2px solid var(--sel-accent);
-  outline-offset: 2px;
-}
-
-/* Arrow */
-.ui-select-btn .arrow {
-  margin-left: auto;
-  width: 0; height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid var(--sel-text);
-  opacity: .8;
-  transition: transform .15s ease;
-}
-.ui-select.open .ui-select-btn .arrow { transform: rotate(180deg); }
-
-/* Dropdown list */
-.ui-select-list {
-  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
-  max-height: 240px; overflow: auto;
-  background: var(--sel-bg);
-  border: 1px solid var(--sel-border);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  padding: 6px 0;
-  display: none;
-  z-index: 1000;
-}
-.ui-select.open .ui-select-list { display: block; }
-
-/* Options */
-.ui-select-option {
-  padding: 10px 12px;
-  color: var(--sel-text);
-  cursor: pointer;
-}
-.ui-select-option:hover,
-.ui-select-option[aria-selected="true"] {
-  background: var(--sel-hover);
-}
-
-/* Ensure toolbar dropdown overlays correctly */
-.reviews-toolbar, .contact-form { position: relative; z-index: 1; }
-.reviews-toolbar .ui-select, .contact-form .ui-select { z-index: 30; }
