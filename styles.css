@@ -6362,3 +6362,17 @@ body[data-theme="dark"] select option:checked {
   background-color: #5b21b6;
   color: #fff;
 }
+
+/* Make the whole row clickable without changing your look */
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+.contact-link:hover {
+  background: rgba(255,255,255,0.06);
+}
