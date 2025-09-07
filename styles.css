@@ -6363,7 +6363,7 @@ body[data-theme="dark"] select option:checked {
   color: #fff;
 }
 
-/* Make the whole row clickable without changing your look */
+/* Make the whole contact row act like a button */
 .contact-link {
   display: flex;
   align-items: center;
