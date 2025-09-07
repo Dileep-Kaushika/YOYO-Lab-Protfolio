@@ -6398,3 +6398,64 @@ body[data-theme="dark"] select option:checked {
 .contact-link > * { pointer-events: none; }
 
 /* If you previously had a rule that set pointer-events: none on .contact-item, remove it */
+
+/* Right column layout */
+.contact-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Contact rows stack */
+.contact-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+/* Make each row fully clickable */
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.contact-link:hover { background: rgba(255,255,255,0.06); }
+.contact-link > * { pointer-events: none; }
+
+/* Center the Follow Us inside the right column */
+.contact-info-section .social-section { text-align: center; }
+.contact-info-section .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Purple outlined circles (optional) */
+:root {
+  --accent: #8b5cf6;
+  --accent-ghost: rgba(139,92,246,.15);
+  --accent-ring: rgba(139,92,246,.45);
+}
+.social-links a {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  color: var(--accent);
+  background: transparent;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ghost);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+}
+.social-links a:hover {
+  transform: translateY(-2px);
+  background: rgba(139,92,246,.1);
+  box-shadow: 0 0 0 3px var(--accent-ring), 0 8px 24px rgba(0,0,0,.25);
+  color: #fff;
+}
+.social-links a i { font-size: 18px; line-height: 1; }
