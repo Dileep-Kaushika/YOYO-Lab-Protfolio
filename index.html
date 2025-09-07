@@ -486,20 +486,26 @@ This studio reflects my belief that every project—whether a song, film, or vis
         <div class="contact-content">
             <div class="contact-form-section">
                 <h3>Send us a message</h3>
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <select required>
-                        <option value="">Select a Service</option>
-                        <option value="music">Music Production</option>
-                        <option value="video">Video Editing</option>
-                        <option value="design">Graphic Design</option>
-                        <option value="post">Post Production</option>
-                        <option value="voice">Voice Recording</option>
-                    </select>
-                    <textarea placeholder="Tell us about your project..." rows="5" required></textarea>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
+                <!-- Contact form — replace the existing <form class="contact-form"> ... </form> with this -->
+<form id="contact-form" class="contact-form" autocomplete="off" novalidate>
+  <input type="text" id="contact-name" placeholder="Your Name" required>
+  <input type="email" id="contact-email" placeholder="Your Email" required>
+  <select id="contact-service" required>
+    <option value="">Select a Service</option>
+    <option value="music">Music Production</option>
+    <option value="video">Video Editing</option>
+    <option value="design">Graphic Design</option>
+    <option value="post">Post Production</option>
+    <option value="voice">Voice Recording</option>
+  </select>
+  <textarea id="contact-message" placeholder="Tell us about your project." rows="5" required></textarea>
+
+  <!-- optional small status text -->
+  <div id="contact-status" style="display:none;margin-top:8px;font-size:0.95rem;"></div>
+
+  <button type="submit" class="btn btn-primary" id="contact-submit">Send Message</button>
+</form>
+
             </div>
             
             <div class="contact-info-section">

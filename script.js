@@ -2262,3 +2262,81 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+// Contact Form -> Realtime Database (paste into script.js)
+(function () {
+  const form = document.getElementById('contact-form');
+  if (!form) return; // form not present
+
+  const nameEl = document.getElementById('contact-name');
+  const emailEl = document.getElementById('contact-email');
+  const serviceEl = document.getElementById('contact-service');
+  const messageEl = document.getElementById('contact-message');
+  const statusEl = document.getElementById('contact-status');
+  const submitBtn = document.getElementById('contact-submit');
+
+  function startContactForm() {
+    if (!firebase || !firebase.database) {
+      console.warn('Realtime Database not available');
+      return;
+    }
+    const messagesRef = firebase.database().ref('messages');
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const name = (nameEl.value || '').trim().slice(0, 40);
+      const email = (emailEl.value || '').trim().slice(0, 100);
+      const service = (serviceEl.value || '').trim() || null;
+      const message = (messageEl.value || '').trim().slice(0, 2000);
+
+      if (!name || !email || !message) {
+        alert('Please provide your name, email and a message.');
+        return;
+      }
+
+      // disable UI
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      if (statusEl) { statusEl.style.display = 'none'; statusEl.textContent = ''; }
+
+      const payload = {
+        name,
+        email,
+        service,
+        message,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      };
+
+      try {
+        await messagesRef.push(payload);
+        // success
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.style.color = '#a8f0c6';
+          statusEl.textContent = 'Thanks — your message was sent.';
+        } else {
+          alert('Thanks — your message was sent.');
+        }
+        form.reset();
+      } catch (err) {
+        console.error('Message submit error', err);
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.style.color = '#f0a8a8';
+          statusEl.textContent = 'Could not send message. Try again.';
+        } else {
+          alert('Could not send message. Try again.');
+        }
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    }
+
+    form.addEventListener('submit', handleSubmit);
+  }
+
+  // Start immediately if firebase ready, otherwise wait for firebaseReady event
+  if (window.db || (window.firebase && window.firebase.database)) startContactForm();
+  else window.addEventListener('firebaseReady', startContactForm, { once: true });
+})();
