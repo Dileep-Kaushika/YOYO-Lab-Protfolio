@@ -1589,9 +1589,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 })();
 
-// Reviews & Ratings (localStorage)
-(function() {
-  const STORAGE_KEY = 'yoyo-reviews-v1';
+// Reviews & Ratings (Firebase Firestore)
+(function () {
+  // DOM refs
   const form = document.getElementById('review-form');
   const nameEl = document.getElementById('reviewer-name');
   const emailEl = document.getElementById('reviewer-email');
@@ -1610,143 +1610,161 @@ document.addEventListener('DOMContentLoaded', function() {
   const listEl = document.getElementById('reviews-list');
   const loadMoreBtn = document.getElementById('load-more-reviews');
 
-  let allReviews = loadReviews();
-  let visibleCount = 6;
+  if (!window.db) {
+    console.warn('Firebase not initialized yet');
+    return;
+  }
 
-  // Star input logic
+  // Firestore collection
+  const reviewsCol = window.db.collection('reviews');
+
+  let allReviews = [];
+  let visibleCount = 12;
+
+  // Stars UI (unchanged)
   starInput?.addEventListener('click', (e) => {
-    const btn = e.target.closest('.star');
-    if (!btn) return;
+    const btn = e.target.closest('.star'); if (!btn) return;
     const value = Number(btn.dataset.value || 0);
     setFormStars(value);
   });
-
   function setFormStars(value) {
     ratingHidden.value = value;
     starInput.querySelectorAll('.star').forEach((s) => {
       const v = Number(s.dataset.value);
       const icon = s.querySelector('i');
-      if (v <= value) {
-        s.classList.add('filled');
-        icon.className = 'fa-solid fa-star';
-        s.setAttribute('aria-checked', 'true');
-      } else {
-        s.classList.remove('filled');
-        icon.className = 'fa-regular fa-star';
-        s.setAttribute('aria-checked', 'false');
-      }
+      if (v <= value) { s.classList.add('filled'); icon.className = 'fa-solid fa-star'; s.setAttribute('aria-checked', 'true'); }
+      else            { s.classList.remove('filled'); icon.className = 'fa-regular fa-star'; s.setAttribute('aria-checked', 'false'); }
     });
   }
 
-  // Submit handler
-  form?.addEventListener('submit', (e) => {
+  // Submit to Firestore
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const name = (nameEl.value || '').trim();
-    const email = (emailEl.value || '').trim();
+    const name   = (nameEl.value || '').trim().slice(0, 40);
+    const email  = (emailEl.value || '').trim().slice(0, 80);
     const rating = Number(ratingHidden.value || 0);
-    const text = (textEl.value || '').trim();
+    const text   = (textEl.value || '').trim().slice(0, 800);
 
-    if (!name || !text || rating < 1) {
-      alert('Please add your name, select a rating, and write a review.');
+    if (!name || !text || rating < 1 || rating > 5) {
+      alert('Please add your name, select a rating (1–5), and write a review.');
       return;
     }
 
-    const review = {
-      id: Date.now(),
-      name: name.substring(0, 40),
-      email: email.substring(0, 80),
-      rating,
-      text: text.substring(0, 800),
-      date: new Date().toISOString()
-    };
-
-    allReviews.unshift(review);
-    saveReviews(allReviews);
-    form.reset();
-    setFormStars(0);
-    render();
+    try {
+      await reviewsCol.add({
+        name,
+        email: email || null,
+        rating,
+        text,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      form.reset();
+      setFormStars(0);
+      fetchReviews(); // refresh list
+    } catch (err) {
+      console.error('Review submit error', err);
+      alert('Could not save review right now. Please try again.');
+    }
   });
 
-  // Sorting/filtering/search
-  sortEl?.addEventListener('change', render);
-  filterEl?.addEventListener('change', render);
-  searchEl?.addEventListener('input', () => { render(true); });
+  // Controls
+  sortEl?.addEventListener('change', () => render());
+  filterEl?.addEventListener('change', () => render());
+  searchEl?.addEventListener('input', () => render(true));
+  loadMoreBtn?.addEventListener('click', () => { visibleCount += 12; render(); });
 
-  loadMoreBtn?.addEventListener('click', () => {
-    visibleCount += 6;
-    render();
-  });
+  // Load all reviews
+  async function fetchReviews() {
+    try {
+      const snap = await reviewsCol.orderBy('createdAt', 'desc').get();
+      allReviews = snap.docs.map(d => {
+        const data = d.data();
+        return {
+          id: d.id,
+          name: data.name || 'Anonymous',
+          email: data.email || null,
+          rating: Number(data.rating || 0),
+          text: data.text || '',
+          createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(0)
+        };
+      });
+      render(true);
+    } catch (err) {
+      console.error('Fetch reviews error', err);
+    }
+  }
 
   function render(resetVisible = false) {
-    if (resetVisible) visibleCount = 6;
+    if (resetVisible) visibleCount = 12;
 
-    // Filter
+    // Filter, search, sort
     let rows = [...allReviews];
     const filter = filterEl?.value || 'all';
-    if (filter !== 'all') {
-      const min = Number(filter);
-      rows = rows.filter(r => r.rating >= min);
-    }
+    if (filter !== 'all') rows = rows.filter(r => r.rating >= Number(filter));
 
-    // Search
     const q = (searchEl?.value || '').toLowerCase();
-    if (q) {
-      rows = rows.filter(r =>
-        r.name.toLowerCase().includes(q) ||
-        r.text.toLowerCase().includes(q)
-      );
-    }
+    if (q) rows = rows.filter(r => r.name.toLowerCase().includes(q) || r.text.toLowerCase().includes(q));
 
-    // Sort
     const sort = sortEl?.value || 'newest';
     rows.sort((a, b) => {
-      if (sort === 'highest') return b.rating - a.rating || new Date(b.date) - new Date(a.date);
-      if (sort === 'lowest') return a.rating - b.rating || new Date(b.date) - new Date(a.date);
-      return new Date(b.date) - new Date(a.date); // newest
+      if (sort === 'highest') return b.rating - a.rating || (b.createdAt - a.createdAt);
+      if (sort === 'lowest')  return a.rating - b.rating || (b.createdAt - a.createdAt);
+      return b.createdAt - a.createdAt;
     });
 
-    // Summary
-    renderSummary(rows.length ? rows : allReviews);
+    renderSummary(allReviews); // summary uses all
 
-    // List
+    // Render list
     listEl.innerHTML = '';
     const slice = rows.slice(0, visibleCount);
     slice.forEach(r => listEl.appendChild(reviewItem(r)));
     loadMoreBtn.style.display = rows.length > visibleCount ? 'inline-flex' : 'none';
 
-    // If no reviews, show placeholder
     if (rows.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'review-item';
-      empty.innerHTML = '<div class="review-text">No reviews match your filters yet.</div>';
+      empty.innerHTML = '<div class="review-text">No reviews yet.</div>';
       listEl.appendChild(empty);
     }
   }
 
   function renderSummary(rows) {
     const count = rows.length;
-    const avg = count ? (rows.reduce((s, r) => s + r.rating, 0) / count) : 0;
+    const avg = count ? rows.reduce((s, r) => s + (r.rating || 0), 0) / count : 0;
     avgScoreEl.textContent = avg.toFixed(1);
-    totalReviewsEl.textContent = String(allReviews.length);
+    totalReviewsEl.textContent = String(count);
     avgStarsEl.innerHTML = starDisplay(avg);
 
-    // distribution
     const buckets = [0,0,0,0,0];
-    allReviews.forEach(r => buckets[r.rating - 1]++);
+    rows.forEach(r => { const i = Math.min(5, Math.max(1, r.rating)) - 1; buckets[i]++; });
+
     distContainer.innerHTML = '';
-    for (let i = buckets.length; i >= 1; i--) {
+    for (let i = 5; i >= 1; i--) {
+      const num = buckets[i-1];
       const row = document.createElement('div');
       row.className = 'dist-row';
       row.innerHTML = `
         <div>${i}★</div>
-        <div class="bar"><div class="fill" style="width:${percent(buckets[i-1], allReviews.length)}%"></div></div>
-        <div>${buckets[i-1]}</div>
+        <div class="bar"><div class="fill" style="width:${percent(num, count)}%"></div></div>
+        <div>${num}</div>
       `;
       distContainer.appendChild(row);
     }
   }
 
-  function percent(n, d) { return d ? Math.round((n / d) * 100) : 0; }
+  function reviewItem(r) {
+    const item = document.createElement('div');
+    item.className = 'review-item';
+    item.innerHTML = `
+      <div class="review-header">
+        <div class="review-author">${escapeHTML(r.name)}</div>
+        <div class="review-stars" aria-label="${r.rating} out of 5">${starDisplay(r.rating)}</div>
+        <div class="review-date">${formatDate(r.createdAt)}</div>
+      </div>
+      <div class="review-text">${escapeHTML(r.text)}</div>
+    `;
+    return item;
+  }
 
   function starDisplay(value) {
     const full = Math.floor(value);
@@ -1760,50 +1778,19 @@ document.addEventListener('DOMContentLoaded', function() {
     return `<div class="star-display">${out.join('')}</div>`;
   }
 
-  function reviewItem(r) {
-    const item = document.createElement('div');
-    item.className = 'review-item';
-    item.innerHTML = `
-      <div class="review-header">
-        <div class="review-author">${escapeHTML(r.name)}</div>
-        <div class="review-stars" aria-label="${r.rating} out of 5">${starDisplay(r.rating)}</div>
-        <div class="review-date">${formatDate(r.date)}</div>
-      </div>
-      <div class="review-text">${escapeHTML(r.text)}</div>
-    `;
-    return item;
-  }
-
   function escapeHTML(str) {
-    return String(str)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
   }
+  function formatDate(date) {
+    try { return date.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
+    catch { return ''; }
+  }
+  function percent(n, d) { return d ? Math.round((n / d) * 100) : 0; }
 
-  function formatDate(iso) {
-    try {
-      const d = new Date(iso);
-      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    } catch { return ''; }
-  }
-
-  function loadReviews() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const arr = raw ? JSON.parse(raw) : [];
-      // validate
-      return Array.isArray(arr) ? arr.filter(v => v && typeof v.rating === 'number') : [];
-    } catch { return []; }
-  }
-  function saveReviews(arr) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
-    catch {}
-  }
-
-  // Initial render
+  // Initial load
   setFormStars(0);
-  render();
+  fetchReviews();
 })();
 
 // Studio Tour modal (MP4 or YouTube/Vimeo)

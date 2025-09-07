@@ -978,5 +978,26 @@ This studio reflects my belief that every project—whether a song, film, or vis
            
 
     <script src="script.js"></script>
+
+    <!-- Firebase (compat builds – easiest for your current setup) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+  // Your Firebase config (from your message)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDY1ef7q6QbwlT20nsVaF4cTWxxX1LfZhs",
+    authDomain: "yoyo-database.firebaseapp.com",
+    databaseURL: "https://yoyo-database-default-rtdb.firebaseio.com",
+    projectId: "yoyo-database",
+    storageBucket: "yoyo-database.firebasestorage.app",
+    messagingSenderId: "599520924652",
+    appId: "1:599520924652:web:ae472f1078822c997426c9"
+  };
+
+  // Init Firebase + Firestore
+  firebase.initializeApp(firebaseConfig);
+  window.db = firebase.firestore();
+</script>
 </body>
 </html>
