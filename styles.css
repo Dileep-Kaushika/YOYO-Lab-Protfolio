@@ -6336,3 +6336,30 @@ body[data-theme="dark"] #contact-service {
   background-color: rgba(255,255,255,0.06);
   color: #ece9ff;
 }
+
+/* Tell the browser to render native controls with dark palette */
+html { color-scheme: light dark; }      /* allow both */
+body[data-theme="dark"] { color-scheme: dark; }
+body[data-theme="light"] { color-scheme: light; }
+
+/* Make the controls themselves dark too */
+body[data-theme="dark"] select,
+body[data-theme="dark"] #reviews-sort,
+body[data-theme="dark"] #reviews-filter,
+body[data-theme="dark"] #contact-service {
+  background: rgba(255,255,255,.06);
+  color: #ece9ff;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* Where supported: style list items (not all browsers support this) */
+body[data-theme="dark"] select option,
+body[data-theme="dark"] select optgroup {
+  background-color: #120f1a;
+  color: #ece9ff;
+}
+body[data-theme="dark"] select option:hover,
+body[data-theme="dark"] select option:checked {
+  background-color: #5b21b6;
+  color: #fff;
+}
