@@ -6631,7 +6631,7 @@ p {
 /* Hidden by default */
 .contact-mobile-hint {
   display: none;
-  margin: 6px 0 12px;
+  margin: 2px 0 12px;
   padding: 8px 12px;
   text-align: center;
   font-size: 0.95rem;
