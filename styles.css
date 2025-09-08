@@ -6627,3 +6627,21 @@ p {
   .contact-info-section .contact-link h4 { margin: 0 0 4px; }
   .contact-info-section .contact-link p  { margin: 0; }
 }
+
+/* Hidden by default */
+.contact-mobile-hint {
+  display: none;
+  margin: 6px 0 12px;
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #e7e3ff;                          /* readable on dark */
+  background: rgba(139, 92, 246, 0.08);    /* subtle purple wash */
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 10px;
+}
+
+/* Show only on mobile */
+@media (max-width: 768px) {
+  .contact-mobile-hint { display: block; }
+}
