@@ -6460,19 +6460,41 @@ body[data-theme="dark"] select option:checked {
 }
 .social-links a i { font-size: 18px; line-height: 1; }
 
+/* Hide modals by default */
 .modal {
+  display: none;                /* keep hidden until opened */
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;          /* keep centered */
-  justify-content: center;
   padding: 24px 12px;
-  overflow: hidden;             /* overlay doesn’t scroll */
+  overflow-y: auto;             /* allow scrolling */
+  -webkit-overflow-scrolling: touch;
+  z-index: 1000;
 }
 
+/* When your JS sets style="display: block", make it flex-centered */
+.modal[style*="block"] {
+  display: flex;
+  align-items: flex-start;      /* start at top so tall content scrolls */
+  justify-content: center;
+}
+
+/* Card sizing */
 .modal .modal-content {
   width: min(100%, 1100px);
-  max-height: 90vh;             /* KEY: card height bounded to viewport */
-  overflow-y: auto;             /* KEY: scroll inside the card */
-  -webkit-overflow-scrolling: touch;
+  margin: 0;
+  border-radius: 16px;
+  max-height: none;
+  overflow: visible;
+}
+
+/* Keep tabs visible while scrolling (optional) */
+.modal .modal-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: inherit;
+}
+
+@media (max-width: 768px) {
+  .modal { padding: 16px 10px; }
 }
