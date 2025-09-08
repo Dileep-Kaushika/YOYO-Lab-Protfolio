@@ -6545,3 +6545,48 @@ body[data-theme="dark"] select option:checked {
     0 2px 10px rgba(0, 0, 0, 0.45),
     0 0 0 3px rgba(16, 185, 129, 0.18);
 }
+
+/* Justify all paragraphs */
+p {
+  text-align: justify;
+  text-justify: inter-word;   /* helps spacing (where supported) */
+  hyphens: auto;              /* better breaks on long words */
+  -webkit-hyphens: auto;
+  overflow-wrap: anywhere;    /* avoid overflow in narrow layouts */
+}
+
+/* Leave these left-aligned */
+.track-meta p,
+.project-card .project-info p,
+.portfolio-overlay p,
+.contact-item p,
+.stat-label,
+.member-role,
+.form-hint,
+.reviews-toolbar label { 
+  text-align: left !important;
+}
+
+/* Center the hero description line */
+.hero-description {
+  text-align: center;
+  max-width: 780px;     /* keeps lines readable */
+  margin: 12px auto 24px;
+  line-height: 1.6;
+}
+
+/* Optional: also center the buttons under it */
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Keep hero sentence from breaking inside words */
+.hero-description {
+  hyphens: none !important;
+  -webkit-hyphens: none !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
