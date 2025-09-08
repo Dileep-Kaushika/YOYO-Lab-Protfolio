@@ -6675,3 +6675,46 @@ p {
     to { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
   }
 }
+
+/* Mobile: hide reviews by default, show a floating CTA */
+@media (max-width: 768px) {
+  #reviews { display: none; }
+  body.show-reviews #reviews { display: block; }
+
+  /* Keep the section from hiding under sticky navbar when scrolled to */
+  #reviews { scroll-margin-top: 80px; }
+
+  /* Floating "View reviews" button */
+  .reviews-cta-mobile {
+    position: fixed;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 3px rgba(139,92,246,.22);
+    font-weight: 700;
+    letter-spacing: .2px;
+    cursor: pointer;
+  }
+  .reviews-cta-mobile i { font-size: 16px; }
+  .reviews-cta-mobile .badge {
+    background: rgba(255,255,255,.18);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+  }
+  .reviews-cta-mobile:active { transform: translateX(-50%) scale(.98); }
+
+  /* Desktop: no CTA */
+  @media (min-width: 769px) {
+    .reviews-cta-mobile { display: none; }
+  }
+}

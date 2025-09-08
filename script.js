@@ -2429,3 +2429,49 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 })();
+
+// Mobile-only "View reviews" floating button: reveals #reviews and scrolls to it
+(function () {
+  const isMobile = (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)
+                  || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (!isMobile) return;
+
+  // Create button
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'reviews-cta-mobile';
+  btn.id = 'reviews-cta-mobile';
+  btn.setAttribute('aria-controls', 'reviews');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<i class="fa-solid fa-star"></i> View reviews <span class="badge" id="reviews-cta-count"></span>';
+  document.body.appendChild(btn);
+
+  // Update count from the existing #total-reviews
+  function updateCount() {
+    const n = parseInt((document.getElementById('total-reviews')?.textContent || '').trim(), 10);
+    const badge = document.getElementById('reviews-cta-count');
+    if (!badge) return;
+    if (Number.isFinite(n) && n > 0) badge.textContent = n;
+    else badge.textContent = '';
+  }
+  // Try now, then observe updates (Firebase listener will change it)
+  updateCount();
+  const totalEl = document.getElementById('total-reviews');
+  if (totalEl && 'MutationObserver' in window) {
+    new MutationObserver(updateCount).observe(totalEl, { childList: true });
+  }
+
+  // Reveal and scroll
+  btn.addEventListener('click', () => {
+    document.body.classList.add('show-reviews');
+    btn.setAttribute('aria-expanded', 'true');
+    // Scroll after it becomes visible
+    setTimeout(() => {
+      document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 30);
+    // Option: hide the CTA after opening (uncomment if you want it gone)
+    // btn.style.display = 'none';
+    // Option: toggle instead of one-time open
+    // if (document.body.classList.contains('show-reviews')) { ... }
+  });
+})();
