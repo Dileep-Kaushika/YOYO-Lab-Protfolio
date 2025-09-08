@@ -2383,3 +2383,49 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('touchend', () => el.animate([{ transform: 'scale(.98)' }, { transform: 'scale(1)' }], { duration: 120 }), { passive: true });
   });
 })();
+
+// Mobile: open Gmail app compose; fallback to mail app
+(function () {
+  const link = document.getElementById('contact-email-link');
+  if (!link) return;
+
+  const email   = 'dileepkaushika@gmail.com';
+  const subject = 'YOYO Lab inquiry';
+  const body    = 'Hi YOYO Lab,\n\n';
+
+  const isMobile = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
+                   || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (!isMobile) return; // desktop: leave default behavior
+
+  const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Ensure fallback uses the system mail app (not Gmail web)
+  link.href = mailto;
+  link.removeAttribute('target');
+
+  link.addEventListener('click', function (e) {
+    const ua = navigator.userAgent || '';
+    const isAndroid = /Android/i.test(ua);
+    const isIOS     = /iPhone|iPad|iPod/i.test(ua);
+
+    if (!(isAndroid || isIOS)) return; // other mobile: let mailto work
+
+    e.preventDefault();
+
+    // Detect app switch via visibility change; otherwise fall back
+    let switched = false;
+    const onHide = () => { switched = true; document.removeEventListener('visibilitychange', onHide); };
+    document.addEventListener('visibilitychange', onHide);
+
+    if (isAndroid) {
+      const intent = `intent://sendto/${encodeURIComponent(email)}#Intent;scheme=mailto;package=com.google.android.gm;end`;
+      location.href = intent;
+      setTimeout(() => { if (!switched) location.href = mailto; }, 800);
+    } else if (isIOS) {
+      const gmailIOS = `googlegmail://co?to=${encodeURIComponent(email)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      location.href = gmailIOS;
+      setTimeout(() => { if (!switched) location.href = mailto; }, 800);
+    }
+  });
+})();
