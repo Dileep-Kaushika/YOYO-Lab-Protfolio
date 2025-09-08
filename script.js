@@ -2134,20 +2134,30 @@ document.addEventListener('DOMContentLoaded', function () {
     'assets/design/logos/logo-02.jpg',
     'assets/design/logos/logo-03.jpg',
     'assets/design/logos/logo-04.png',
-    'assets/design/logos/logo-05.png'
+    'assets/design/logos/logo-05.png',
+    'assets/design/logos/6.webp',
+   'assets/design/logos/7.webp',
+    'assets/design/logos/8.webp',
+     'assets/design/logos/9.webp',
+      'assets/design/logos/10.webp',
+       'assets/design/logos/11.webp',
+        'assets/design/logos/12.webp'
     ],
     posts: [
       'assets/design/posts/1.webp',
       'assets/design/posts/2.png',
       'assets/design/posts/3.webp',
-      'assets/design/posts/4.png'
+      'assets/design/posts/4.png',
+      'assets/design/posts/5.webp'
     ],
     tshirts: [
       // Added one image for now; add more later (assets/design/tshirts/...)
       'assets/design/tshirts/1.png',
       'assets/design/tshirts/2.png',
       'assets/design/tshirts/3.png',
-      'assets/design/tshirts/4.jpg'
+      'assets/design/tshirts/4.jpg',
+      'assets/design/tshirts/5.jpg',
+      'assets/design/tshirts/6.jpg'
     ]
     
   };
