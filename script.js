@@ -2341,3 +2341,45 @@ document.addEventListener('DOMContentLoaded', function () {
   a.href = isMobile ? mobileHref : webHref;
 })();
 
+// Mobile-only ripple on Contact Information cards (Email / WhatsApp / Location)
+(function () {
+  const isMobile = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth <= 768;
+  if (!isMobile) return;
+
+  const cards = document.querySelectorAll('.contact-info-section .contact-info a.contact-link');
+  if (!cards.length) return;
+
+  function ripple(e, el) {
+    const rect = el.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+
+    const span = document.createElement('span');
+    span.className = 'tap-ripple';
+    span.style.width = span.style.height = size + 'px';
+    span.style.left = x + 'px';
+    span.style.top = y + 'px';
+
+    // Color by destination
+    const href = el.getAttribute('href') || '';
+    let color = 'rgba(139, 92, 246, 0.35)';           // default purple (Email)
+    if (/wa\.me|whatsapp/i.test(href)) color = 'rgba(34, 197, 94, 0.35)';    // WhatsApp green
+    if (/maps\.app|google\.com\/maps/i.test(href)) color = 'rgba(96, 165, 250, 0.35)'; // Maps blue
+
+    span.style.background = `radial-gradient(circle at center, ${color} 0%, rgba(0,0,0,0) 70%)`;
+    span.style.setProperty('--ripple-color', color);
+
+    el.appendChild(span);
+    setTimeout(() => span.remove(), 650);
+  }
+
+  cards.forEach(el => {
+    // Use pointer events where available; fallback to touchstart
+    el.addEventListener('pointerdown', (e) => ripple(e, el), { passive: true });
+    el.addEventListener('touchstart', (e) => ripple(e, el), { passive: true });
+    // small bounce on release
+    el.addEventListener('pointerup', () => el.animate([{ transform: 'scale(.98)' }, { transform: 'scale(1)' }], { duration: 120 }), { passive: true });
+    el.addEventListener('touchend', () => el.animate([{ transform: 'scale(.98)' }, { transform: 'scale(1)' }], { duration: 120 }), { passive: true });
+  });
+})();
