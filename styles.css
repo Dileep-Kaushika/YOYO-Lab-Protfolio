@@ -6459,3 +6459,20 @@ body[data-theme="dark"] select option:checked {
   color: #fff;
 }
 .social-links a i { font-size: 18px; line-height: 1; }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;          /* keep centered */
+  justify-content: center;
+  padding: 24px 12px;
+  overflow: hidden;             /* overlay doesn’t scroll */
+}
+
+.modal .modal-content {
+  width: min(100%, 1100px);
+  max-height: 90vh;             /* KEY: card height bounded to viewport */
+  overflow-y: auto;             /* KEY: scroll inside the card */
+  -webkit-overflow-scrolling: touch;
+}
