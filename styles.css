@@ -6590,3 +6590,40 @@ p {
   overflow-wrap: normal !important;
   word-break: normal !important;
 }
+
+/* Mobile-only fix: make contact icons perfect circles like the Location one */
+@media (max-width: 768px) {
+  /* Make the row a 2‑column layout: [icon][text] */
+  .contact-info-section .contact-link {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Force the icon container to be a circle and center the icon */
+  .contact-info-section .contact-icon {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+
+    /* match the Location style */
+    background: radial-gradient(80% 80% at 30% 30%, rgba(139,92,246,.22), rgba(139,92,246,.08));
+    border: 2px solid rgba(139,92,246,.6);
+    box-shadow: 0 2px 8px rgba(0,0,0,.25), 0 0 0 3px rgba(139,92,246,.15);
+  }
+
+  .contact-info-section .contact-icon i {
+    font-size: 20px;
+    color: #fff;     /* white icon on purple */
+    line-height: 1;
+  }
+
+  /* Tidy text spacing so the icon doesn't stretch to match */
+  .contact-info-section .contact-link h4 { margin: 0 0 4px; }
+  .contact-info-section .contact-link p  { margin: 0; }
+}
