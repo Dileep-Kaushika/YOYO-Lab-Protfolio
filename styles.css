@@ -6676,17 +6676,15 @@ p {
   }
 }
 
-/* Mobile: collapse reviews by default and show a View Reviews button */
+/* Mobile: hide only the uploaded reviews list by default */
 @media (max-width: 768px) {
-  /* Hide reviews content when collapsed (form stays visible) */
-  #reviews.collapsed .reviews-summary,
-  #reviews.collapsed .reviews-toolbar,
-  #reviews.collapsed #reviews-list,
-  #reviews.collapsed .reviews-actions {
+  /* When collapsed, hide the list + load more row only */
+  #reviews.list-collapsed #reviews-list,
+  #reviews.list-collapsed .reviews-actions {
     display: none;
   }
 
-  /* Form action row layout */
+  /* Make the action row a flex row so buttons sit side by side */
   #review-form-card .form-actions {
     display: flex;
     align-items: center;
@@ -6694,9 +6692,9 @@ p {
     flex-wrap: wrap;
   }
 
-  /* The mobile View Reviews button */
+  /* "View reviews" button (sits to the right of Submit Review) */
   #view-reviews-btn {
-    margin-left: auto; /* push to the right side of Submit Review */
+    margin-left: auto; /* push it to the right side of the row */
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -6709,12 +6707,6 @@ p {
     letter-spacing: .2px;
   }
   #view-reviews-btn i { font-size: 14px; }
-  #view-reviews-btn .badge {
-    background: rgba(255,255,255,.18);
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-size: 12px;
-  }
   #view-reviews-btn[aria-expanded="true"] {
     background: rgba(139,92,246,.30);
   }

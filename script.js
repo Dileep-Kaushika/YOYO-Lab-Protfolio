@@ -2430,7 +2430,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 })();
 
-// Mobile-only "View reviews" button beside Submit Review
+// Mobile: "View reviews" button (right of Submit Review) toggles ONLY the uploaded list
 (function () {
   const isMobile = (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)
                 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -2441,44 +2441,30 @@ document.addEventListener('DOMContentLoaded', function () {
                   document.querySelector('#review-form .form-actions');
   if (!reviewsSec || !actions) return;
 
-  // Collapse reviews content by default on mobile
-  reviewsSec.classList.add('collapsed');
+  // Collapse only the list by default on mobile
+  reviewsSec.classList.add('list-collapsed');
 
-  // Create the button
+  // Create the button and place it after the Submit button (right side via CSS)
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.id = 'view-reviews-btn';
   btn.setAttribute('aria-expanded', 'false');
-  btn.innerHTML = '<i class="fa-solid fa-star"></i><span>View reviews</span> <span class="badge" id="view-reviews-count"></span>';
-
+  btn.innerHTML = '<i class="fa-solid fa-star"></i> View reviews';
   actions.appendChild(btn);
 
-  // Keep the count on the button up to date
-  function updateCount() {
-    const totalEl = document.getElementById('total-reviews');
-    const badge = document.getElementById('view-reviews-count');
-    if (!totalEl || !badge) return;
-    const n = parseInt((totalEl.textContent || '').trim(), 10);
-    badge.textContent = Number.isFinite(n) && n > 0 ? n : '';
-  }
-  updateCount();
-  const totalEl = document.getElementById('total-reviews');
-  if (totalEl && 'MutationObserver' in window) {
-    new MutationObserver(updateCount).observe(totalEl, { childList: true, characterData: true, subtree: true });
-  }
-
-  // Toggle open/close
+  // Toggle only the list
   btn.addEventListener('click', () => {
-    const collapsed = reviewsSec.classList.toggle('collapsed'); // toggles and returns state AFTER toggle? classList.toggle returns boolean indicating present after operation; If we passed no second arg, then true means present after toggle.
-    const isOpen = !collapsed;
+    const nowCollapsed = reviewsSec.classList.toggle('list-collapsed'); // returns true if class present after toggle
+    const isOpen = !nowCollapsed;
     btn.setAttribute('aria-expanded', String(isOpen));
-    btn.querySelector('span').textContent = isOpen ? 'Hide reviews' : 'View reviews';
+    btn.innerHTML = isOpen
+      ? '<i class="fa-solid fa-star"></i> Hide reviews'
+      : '<i class="fa-solid fa-star"></i> View reviews';
 
     if (isOpen) {
-      // Make sure user sees it
+      // Scroll to the list so users see it right away
       setTimeout(() => {
-        const target = document.getElementById('reviews-list') || reviewsSec;
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.getElementById('reviews-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 30);
     }
   });
